@@ -19,13 +19,14 @@ public class AccountStore {
 
     public AccountDto createAccount(AccountDto dto) {
         Account account = new Account();
+        account.setAmount(dto.getAmount());
         return toDto(accountRepository.save(account));
     }
 
     public AccountDto updateAccount(AccountDto dto) {
-        return accountRepository.findById(dto.getId())
-                .map(AccountStore::toDto)
-                .orElseThrow(RuntimeException::new);
+        Optional<Account> account = accountRepository.findById(dto.getId());
+        account.ifPresent(acc -> acc.setAmount(dto.getAmount()));
+        return account.map(AccountStore::toDto).orElseThrow(RuntimeException::new);
     }
 
     public Optional<AccountDto> findById(UUID id) {
@@ -39,6 +40,7 @@ public class AccountStore {
     private static AccountDto toDto(Account account) {
         AccountDto dto = new AccountDto();
         dto.setId(account.getId());
+        dto.setAmount(account.getAmount());
         return dto;
     }
 }
