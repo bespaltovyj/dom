@@ -18,6 +18,7 @@ public class AccountService {
     private static final Sort DEFAULT_ID_SORTABLE = Sort.by("id");
 
     private final AccountStore accountStore;
+    private final ValidatorService validatorService;
 
     public List<AccountDto> findAccounts(int page, int limit) {
         return accountStore.findPageable(PageRequest.of(page, limit, DEFAULT_ID_SORTABLE));
@@ -28,6 +29,7 @@ public class AccountService {
     }
 
     public AccountDto createAccount(AccountDto dto) {
+        validatorService.validate(dto);
         return accountStore.createAccount(dto);
     }
 
@@ -35,6 +37,7 @@ public class AccountService {
         if (!Objects.equals(id, dto.getId())) {
             throw new RuntimeException();
         }
+        validatorService.validate(dto);
         return accountStore.updateAccount(dto);
     }
 }
