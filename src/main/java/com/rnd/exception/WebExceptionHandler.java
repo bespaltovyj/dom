@@ -22,9 +22,15 @@ public class WebExceptionHandler {
 
     private final MessageSource messageSource;
 
+    @ExceptionHandler(value = {NotFoundException.class})
+    protected ResponseEntity<ErrorDto> handleServiceError(NotFoundException ex) {
+        String message = messageSource.getMessage(ex.getMessageKey(), null, NOT_FOUND_MESSAGE_TEMPLATE + ex.getMessageKey(), LocaleContextHolder.getLocale());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDto(HttpStatus.BAD_REQUEST.value(), Collections.singleton(message)));
+    }
+
     @ExceptionHandler(value = {ServiceException.class})
     protected ResponseEntity<ErrorDto> handleServiceError(ServiceException ex) {
-        String message = messageSource.getMessage(ex.getMessageKey(), null, NOT_FOUND_MESSAGE_TEMPLATE, LocaleContextHolder.getLocale());
+        String message = messageSource.getMessage(ex.getMessageKey(), null, NOT_FOUND_MESSAGE_TEMPLATE + ex.getMessageKey(), LocaleContextHolder.getLocale());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto(HttpStatus.BAD_REQUEST.value(), Collections.singleton(message)));
     }
 

@@ -1,7 +1,10 @@
 package com.rnd.service;
 
+import com.rnd.constants.ErrorMessageKey;
 import com.rnd.exception.AccountAmountIsInsufficiently;
 import com.rnd.exception.AccountAmountTooMuch;
+import com.rnd.exception.IllegalArgumentServiceException;
+import com.rnd.exception.NotFoundException;
 import com.rnd.model.dto.AccountDto;
 import com.rnd.store.AccountStore;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +33,7 @@ public class AccountService {
     @Transactional
     public void increaseAmount(UUID id, long step) {
         AccountDto account = findAccount(id);
-        if (step < 0) {
-            throw new RuntimeException();
-        }
+        checkStep(step);
         if (Long.MAX_VALUE - account.getAmount() < step) {
             throw new AccountAmountTooMuch();
         }
@@ -43,9 +44,7 @@ public class AccountService {
     @Transactional
     public void decreaseAmount(UUID id, long step) {
         AccountDto account = findAccount(id);
-        if (step < 0) {
-            throw new RuntimeException();
-        }
+        checkStep(step);
         if (account.getAmount() - step < 0) {
             throw new AccountAmountIsInsufficiently();
         }
@@ -60,7 +59,7 @@ public class AccountService {
     }
 
     public AccountDto findAccount(UUID id) {
-        return accountStore.findById(id).orElseThrow(RuntimeException::new);
+        return accountStore.findById(id).orElseThrow(() -> new NotFoundException(ErrorMessageKey.ACCOUNT_NOT_FOUND));
     }
 
     public AccountDto createAccount(AccountDto dto) {
@@ -70,9 +69,15 @@ public class AccountService {
 
     public AccountDto updateAccount(UUID id, AccountDto dto) {
         if (!Objects.equals(id, dto.getId())) {
-            throw new RuntimeException();
+            throw new IllegalArgumentException();
         }
         validatorService.validate(dto);
         return accountStore.updateAccount(dto);
+    }
+
+    private static void checkStep(long step) {
+        if (step < 0) {
+            throw new IllegalArgumentServiceException(ErrorMessageKey.STEP_MUST_POSITIVE);
+        }
     }
 }
