@@ -5,6 +5,7 @@ import com.rnd.model.dto.AccountDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,12 +18,14 @@ public class AccountStore {
 
     private final AccountRepository accountRepository;
 
+    @Transactional
     public AccountDto createAccount(AccountDto dto) {
         Account account = new Account();
         account.setAmount(dto.getAmount());
         return toDto(accountRepository.save(account));
     }
 
+    @Transactional
     public AccountDto updateAccount(AccountDto dto) {
         Optional<Account> account = accountRepository.findById(dto.getId());
         account.ifPresent(acc -> acc.setAmount(dto.getAmount()));

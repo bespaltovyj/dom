@@ -14,6 +14,25 @@ public class AccountController {
 
     private final AccountService accountService;
 
+    @PostMapping(value = "/account/{id}/increase")
+    public void increaseAmount(@PathVariable("id") UUID id, @RequestParam("step") long step) {
+        accountService.increaseAmount(id, step);
+    }
+
+    @PostMapping(value = "/account/{id}/decrease")
+    public void decreaseAmount(@PathVariable("id") UUID id, @RequestParam("step") long step) {
+        accountService.decreaseAmount(id, step);
+    }
+
+    @PostMapping(value = "/account/exchange")
+    public void exchangeAmountsBetweenAccounts(
+            @RequestParam("from") UUID from,
+            @RequestParam("to") UUID to,
+            @RequestParam("step") long step
+    ) {
+        accountService.exchangeAmount(from, to, step);
+    }
+
     @GetMapping(value = "/account")
     public List<AccountDto> findAccounts(
             @RequestParam(name = "page", defaultValue = "10") int page,
