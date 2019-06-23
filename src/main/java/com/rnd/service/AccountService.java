@@ -35,7 +35,7 @@ public class AccountService {
         AccountDto account = findAccount(id);
         checkStep(step);
         if (Long.MAX_VALUE - account.getAmount() < step) {
-            throw new AccountAmountTooMuch();
+            throw new AccountAmountTooMuch(id);
         }
         account.setAmount(account.getAmount() + step);
         accountStore.updateAccount(account);
@@ -46,7 +46,7 @@ public class AccountService {
         AccountDto account = findAccount(id);
         checkStep(step);
         if (account.getAmount() - step < 0) {
-            throw new AccountAmountIsInsufficiently();
+            throw new AccountAmountIsInsufficiently(id);
         }
         account.setAmount(account.getAmount() - step);
         accountStore.updateAccount(account);
@@ -59,7 +59,7 @@ public class AccountService {
     }
 
     public AccountDto findAccount(UUID id) {
-        return accountStore.findById(id).orElseThrow(() -> new NotFoundException(ErrorMessageKey.ACCOUNT_NOT_FOUND));
+        return accountStore.findById(id).orElseThrow(() -> new NotFoundException(ErrorMessageKey.ACCOUNT_NOT_FOUND, id));
     }
 
     public AccountDto createAccount(AccountDto dto) {

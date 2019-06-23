@@ -24,19 +24,23 @@ public class WebExceptionHandler {
 
     @ExceptionHandler(value = {NotFoundException.class})
     protected ResponseEntity<ErrorDto> handleServiceError(NotFoundException ex) {
-        String message = messageSource.getMessage(ex.getMessageKey(), null, NOT_FOUND_MESSAGE_TEMPLATE + ex.getMessageKey(), LocaleContextHolder.getLocale());
+        String message = getMessage(ex.getMessageKey(), ex.getArgs());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDto(HttpStatus.BAD_REQUEST.value(), Collections.singleton(message)));
     }
 
     @ExceptionHandler(value = {ServiceException.class})
     protected ResponseEntity<ErrorDto> handleServiceError(ServiceException ex) {
-        String message = messageSource.getMessage(ex.getMessageKey(), null, NOT_FOUND_MESSAGE_TEMPLATE + ex.getMessageKey(), LocaleContextHolder.getLocale());
+        String message = getMessage(ex.getMessageKey(), ex.getArgs());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto(HttpStatus.BAD_REQUEST.value(), Collections.singleton(message)));
     }
 
     @ExceptionHandler(value = {ValidationException.class})
     protected ResponseEntity<ErrorDto> handleServiceError(ValidationException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto(HttpStatus.BAD_REQUEST.value(), ex.getErrors()));
+    }
+
+    private String getMessage(String key, Object[] args) {
+        return messageSource.getMessage(key, args, NOT_FOUND_MESSAGE_TEMPLATE + key, LocaleContextHolder.getLocale());
     }
 
 }
