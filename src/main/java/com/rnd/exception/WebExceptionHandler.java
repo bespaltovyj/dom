@@ -19,6 +19,7 @@ import java.util.Collections;
 public class WebExceptionHandler {
 
     private static final String NOT_FOUND_MESSAGE_TEMPLATE = "NOT FOUND MESSAGE FOR KEY ";
+    private static final String UNKNOWN_ERROR_MESSAGE_KEY = "error.unknown";
 
     private final MessageSource messageSource;
 
@@ -37,6 +38,13 @@ public class WebExceptionHandler {
     @ExceptionHandler(value = {ValidationException.class})
     protected ResponseEntity<ErrorDto> handleServiceError(ValidationException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDto(HttpStatus.BAD_REQUEST.value(), ex.getErrors()));
+    }
+
+    @ExceptionHandler(value = {Exception.class})
+    protected ResponseEntity<ErrorDto> handleServiceError(Exception ex) {
+        log.error(ex.getMessage());
+        ErrorDto error = new ErrorDto(HttpStatus.BAD_REQUEST.value(), Collections.singleton(getMessage(UNKNOWN_ERROR_MESSAGE_KEY, null)));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
     private String getMessage(String key, Object[] args) {
