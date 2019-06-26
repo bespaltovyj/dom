@@ -12,9 +12,20 @@
 					"name": "increase",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "100"
+						},
 						"url": {
-							"raw": "{{protocol}}://{{host}}:{{port}}/account/51a87a27-c1c0-4b6d-94d6-7741917d5cbe/increase?step=100",
+							"raw": "{{protocol}}://{{host}}:{{port}}/account/51a87a27-c1c0-4b6d-94d6-7741917d5cbe/increase",
 							"protocol": "{{protocol}}",
 							"host": [
 								"{{host}}"
@@ -24,12 +35,6 @@
 								"account",
 								"51a87a27-c1c0-4b6d-94d6-7741917d5cbe",
 								"increase"
-							],
-							"query": [
-								{
-									"key": "step",
-									"value": "100"
-								}
 							]
 						}
 					},
@@ -39,9 +44,20 @@
 					"name": "decrease",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "100"
+						},
 						"url": {
-							"raw": "{{protocol}}://{{host}}:{{port}}/account/51a87a27-c1c0-4b6d-94d6-7741917d5cbe/decrease?step=100",
+							"raw": "{{protocol}}://{{host}}:{{port}}/account/51a87a27-c1c0-4b6d-94d6-7741917d5cbe/decrease",
 							"protocol": "{{protocol}}",
 							"host": [
 								"{{host}}"
@@ -51,12 +67,6 @@
 								"account",
 								"51a87a27-c1c0-4b6d-94d6-7741917d5cbe",
 								"decrease"
-							],
-							"query": [
-								{
-									"key": "step",
-									"value": "100"
-								}
 							]
 						}
 					},
@@ -66,9 +76,20 @@
 					"name": "exchange",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"from\": \"a6f2880f-dc74-4b25-9fe6-a77f0308700e\",\n    \"to\": \"51a87a27-c1c0-4b6d-94d6-7741917d5cbe\",\n    \"step\": 10\n}"
+						},
 						"url": {
-							"raw": "{{protocol}}://{{host}}:{{port}}/account/exchange?from=51a87a27-c1c0-4b6d-94d6-7741917d5cbe&to=a6f2880f-dc74-4b25-9fe6-a77f0308700e&step=200",
+							"raw": "{{protocol}}://{{host}}:{{port}}/account/exchange",
 							"protocol": "{{protocol}}",
 							"host": [
 								"{{host}}"
@@ -77,20 +98,6 @@
 							"path": [
 								"account",
 								"exchange"
-							],
-							"query": [
-								{
-									"key": "from",
-									"value": "51a87a27-c1c0-4b6d-94d6-7741917d5cbe"
-								},
-								{
-									"key": "to",
-									"value": "a6f2880f-dc74-4b25-9fe6-a77f0308700e"
-								},
-								{
-									"key": "step",
-									"value": "200"
-								}
 							]
 						}
 					},
@@ -104,7 +111,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{protocol}}://{{host}}:{{port}}/account/4a7c1f32-b606-4b14-8aa4-39f43b1b386b",
+					"raw": "{{protocol}}://{{host}}:{{port}}/account/51a87a27-c1c0-4b6d-94d6-7741917d5cbe",
 					"protocol": "{{protocol}}",
 					"host": [
 						"{{host}}"
@@ -112,7 +119,7 @@
 					"port": "{{port}}",
 					"path": [
 						"account",
-						"4a7c1f32-b606-4b14-8aa4-39f43b1b386b"
+						"51a87a27-c1c0-4b6d-94d6-7741917d5cbe"
 					]
 				}
 			},
@@ -191,10 +198,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": \"6c61fd1a-ec5c-4b57-a0b0-c9ac8f8d839e\",\n    \"amount\": -10\n}"
+					"raw": "{\n    \"id\": \"a2a4c6d9-5663-4d75-925b-6b4cf9c0050f\",\n    \"amount\": -10\n}"
 				},
 				"url": {
-					"raw": "{{protocol}}://{{host}}:{{port}}/account/6c61fd1a-ec5c-4b57-a0b0-c9ac8f8d839e",
+					"raw": "{{protocol}}://{{host}}:{{port}}/account/a2a4c6d9-5663-4d75-925b-6b4cf9c0050f",
 					"protocol": "{{protocol}}",
 					"host": [
 						"{{host}}"
@@ -202,7 +209,7 @@
 					"port": "{{port}}",
 					"path": [
 						"account",
-						"6c61fd1a-ec5c-4b57-a0b0-c9ac8f8d839e"
+						"a2a4c6d9-5663-4d75-925b-6b4cf9c0050f"
 					]
 				}
 			},
@@ -233,19 +240,19 @@
 	],
 	"variable": [
 		{
-			"id": "060474bd-e677-462c-a6dd-d61504049b3f",
+			"id": "b1da4535-d08e-4a45-b26c-a9ceeaaadb4b",
 			"key": "host",
 			"value": "localhost",
 			"type": "string"
 		},
 		{
-			"id": "baed84c4-5ab4-454b-8856-f335cc8c964f",
+			"id": "b0d449c0-890c-482f-af80-4539bd963c35",
 			"key": "port",
 			"value": "8080",
 			"type": "string"
 		},
 		{
-			"id": "71107e73-bb34-44e0-a0a5-cd6a0dccbdd4",
+			"id": "ab6c141f-72da-4952-8cc0-119848285998",
 			"key": "protocol",
 			"value": "http",
 			"type": "string"

@@ -6,6 +6,7 @@ import com.rnd.exception.AccountAmountTooMuch;
 import com.rnd.exception.IllegalArgumentServiceException;
 import com.rnd.exception.NotFoundException;
 import com.rnd.model.dto.AccountDto;
+import com.rnd.model.dto.ExchangeAmountsRequestDto;
 import com.rnd.store.AccountStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -31,9 +32,10 @@ public class AccountService {
     }
 
     @Transactional
-    public void increaseAmount(UUID id, long step) {
-        AccountDto account = findAccount(id);
+    public void increaseAmount(UUID id, Long step) {
+        checkNotNull(id, ErrorMessageKey.DONOR_MUST_BE_PRESENT);
         checkStep(step);
+        AccountDto account = findAccount(id);
         if (Long.MAX_VALUE - account.getAmount() < step) {
             throw new AccountAmountTooMuch(id);
         }
@@ -42,9 +44,10 @@ public class AccountService {
     }
 
     @Transactional
-    public void decreaseAmount(UUID id, long step) {
-        AccountDto account = findAccount(id);
+    public void decreaseAmount(UUID id, Long step) {
+        checkNotNull(id, ErrorMessageKey.RECIPIENT_MUST_BE_PRESENT);
         checkStep(step);
+        AccountDto account = findAccount(id);
         if (account.getAmount() - step < 0) {
             throw new AccountAmountIsInsufficiently(id);
         }
@@ -53,9 +56,9 @@ public class AccountService {
     }
 
     @Transactional
-    public void exchangeAmount(UUID from, UUID to, long step) {
-        decreaseAmount(from, step);
-        increaseAmount(to, step);
+    public void exchangeAmount(ExchangeAmountsRequestDto requestDto) {
+        decreaseAmount(requestDto.getFrom(), requestDto.getStep());
+        increaseAmount(requestDto.getTo(), requestDto.getStep());
     }
 
     public AccountDto findAccount(UUID id) {
@@ -75,9 +78,15 @@ public class AccountService {
         return accountStore.updateAccount(dto);
     }
 
-    private static void checkStep(long step) {
-        if (step < 0) {
+    private static void checkStep(Long step) {
+        if (Objects.isNull(step) || step < 0) {
             throw new IllegalArgumentServiceException(ErrorMessageKey.STEP_MUST_POSITIVE);
+        }
+    }
+
+    private static void checkNotNull(Object object, String errorKey) {
+        if (Objects.isNull(object)) {
+            throw new IllegalArgumentServiceException(errorKey);
         }
     }
 }

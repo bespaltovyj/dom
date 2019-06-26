@@ -1,6 +1,7 @@
 package com.rnd.controller;
 
 import com.rnd.model.dto.AccountDto;
+import com.rnd.model.dto.ExchangeAmountsRequestDto;
 import com.rnd.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,22 +16,18 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping(value = "/account/{id}/increase")
-    public void increaseAmount(@PathVariable("id") UUID id, @RequestParam("step") long step) {
+    public void increaseAmount(@PathVariable("id") UUID id, @RequestBody Long step) {
         accountService.increaseAmount(id, step);
     }
 
     @PostMapping(value = "/account/{id}/decrease")
-    public void decreaseAmount(@PathVariable("id") UUID id, @RequestParam("step") long step) {
+    public void decreaseAmount(@PathVariable("id") UUID id, @RequestBody Long step) {
         accountService.decreaseAmount(id, step);
     }
 
     @PostMapping(value = "/account/exchange")
-    public void exchangeAmountsBetweenAccounts(
-            @RequestParam("from") UUID from,
-            @RequestParam("to") UUID to,
-            @RequestParam("step") long step
-    ) {
-        accountService.exchangeAmount(from, to, step);
+    public void exchangeAmountsBetweenAccounts(@RequestBody ExchangeAmountsRequestDto requestDto) {
+        accountService.exchangeAmount(requestDto);
     }
 
     @GetMapping(value = "/account")
