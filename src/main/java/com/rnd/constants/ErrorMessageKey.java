@@ -5,4 +5,5 @@ public class ErrorMessageKey {
 
     public static final String STEP_MUST_POSITIVE = "step.must_be_positive";
     public static final String ACCOUNT_NOT_FOUND = "account.not_found";
+    public static final String OPTIMISTIC_LOCK_EXCEPTION = "operation.optimistic_lock";
 }

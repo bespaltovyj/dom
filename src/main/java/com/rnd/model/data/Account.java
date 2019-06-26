@@ -1,5 +1,6 @@
 package com.rnd.model.data;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,4 +22,8 @@ public class Account implements Serializable {
     @Column
     @PositiveOrZero
     private long amount;
+
+    @Version
+    @Setter(AccessLevel.NONE)
+    private long version;
 }

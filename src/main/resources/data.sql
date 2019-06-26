@@ -1,1 +1,1 @@
-INSERT INTO account (id, amount) VALUES ('51a87a27c1c04b6d94d67741917d5cbe', 100), ('a6f2880fdc744b259fe6a77f0308700e', 20);
+INSERT INTO account (id, amount, version) VALUES ('51a87a27c1c04b6d94d67741917d5cbe', 100, 0), ('a6f2880fdc744b259fe6a77f0308700e', 20, 0);
