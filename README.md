@@ -7,11 +7,16 @@
 ## API
 ### Основное
 * Положить деньги на счет
-POST /account/{id}/increase?step=<POSITIVE_LONG>
+POST /account/{id}/increase в теле запроса шаг увелечения
 * Снять деньги со счета
-POST /account/{id}/decrease?step=<POSITIVE_LONG>
+POST /account/{id}/decrease в теле запроса шаг уменьшения
 * Перечислить с одного счета на другой
-POST /account/exchange?from=<UUID>&to<UUID>&step=<POSITIVE_LONG>
+POST /account/exchange в теле запроса JSON вида
+{
+    "from": "a6f2880f-dc74-4b25-9fe6-a77f0308700e",
+    "to": "51a87a27-c1c0-4b6d-94d6-7741917d5cbe",
+    "step": 10
+}
 
 На все запросы в случае успеха возвращается пустое тело со статусом 200.
 
